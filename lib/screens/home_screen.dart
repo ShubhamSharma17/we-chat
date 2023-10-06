@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:we_chat/models/user_model.dart';
+import 'package:we_chat/screens/seachPage.dart';
 
 class HomeScreen extends StatefulWidget {
   final UserModel userModel;
@@ -40,9 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
       // floating button for add new user
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _signOut();
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return SearchScreen(
+                    userModel: widget.userModel,
+                    firebaseUser: widget.firebaseUser);
+              },
+            ));
           },
-          child: const Icon(Icons.person_add_outlined)),
+          child: const Icon(Icons.search)),
     );
   }
 }

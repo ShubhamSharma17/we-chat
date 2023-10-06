@@ -8,7 +8,8 @@
         "fullname",
         "Googlebtn",
         "profilepic",
-        "signup"
+        "signup",
+        "Snapshort"
     ],
     "java.configuration.updateBuildConfiguration": "disabled"
 }
