@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Map<String, dynamic> usersMap =
                           querySnapshot.docs[0].data() as Map<String, dynamic>;
                       UserModel searchMap = UserModel.fromMap(usersMap);
-                      // list tile..
+                      // list tile...
                       return ListTile(
                         onTap: () {
                           Navigator.pop(context);
