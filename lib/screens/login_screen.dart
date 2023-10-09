@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           name: "email address",
                           obscureText: false,
                           controller: emailController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.emailAddress,
                           textCapitalization: TextCapitalization.words,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: FormBuilderValidators.required(

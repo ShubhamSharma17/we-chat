@@ -29,7 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // appbar
       appBar: AppBar(
         title: const Text("Home"),
-        leading: const Icon(CupertinoIcons.home),
+        leading: InkWell(
+            onTap: () {
+              _signOut();
+            },
+            child: const Icon(
+              CupertinoIcons.home,
+            )),
         actions: [
           // search button
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),

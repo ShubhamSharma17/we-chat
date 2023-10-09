@@ -55,6 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fullname: "",
         profilepic: "",
         uid: uid,
+        phoneNumber: "",
       );
       FirebaseFirestore.instance
           .collection("User")
@@ -318,10 +319,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // sign up button..
                   isDisable
                       ? CupertinoButton(
-                          onPressed: () {
-                            // signUp(emailController.text.trim(),
-                            //     passwordController.text.trim());
-                          },
+                          onPressed: () {},
                           color: gray8F959E,
                           child: const Text(
                             "Sign Up",
