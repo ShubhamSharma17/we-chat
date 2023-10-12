@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:developer';
 
@@ -7,10 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:we_chat/models/chat_room_model.dart';
 import 'package:we_chat/models/user_model.dart';
 import 'package:we_chat/screens/chat_room_screen.dart';
 import 'package:we_chat/utility/utility.dart';
 
+import '../main.dart';
 import '../utility/colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -25,6 +27,41 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  // method for checking chat room is available or not with target user
+  Future<ChatRoomModel?> getChatRoomModel(UserModel targetUser) async {
+    ChatRoomModel? chatRoom;
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection("chatrooms")
+        .where("participant.${widget.userModel.uid}", isEqualTo: true)
+        .where("participant.${targetUser.uid}", isEqualTo: true)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      // Fetch the existing chat room
+      var docData = snapshot.docs[0].data();
+      ChatRoomModel existingChatRoom =
+          ChatRoomModel.fromMap(docData as Map<String, dynamic>);
+      chatRoom = existingChatRoom;
+      log("Chat room already created!");
+    } else {
+      // create a new one
+      ChatRoomModel newChatRoom = ChatRoomModel(
+        chatroomid: uuid.v1(),
+        lastMessage: "",
+        participant: {
+          widget.userModel.uid.toString(): true,
+          targetUser.uid!: true,
+        },
+      );
+      await FirebaseFirestore.instance
+          .collection("chatrooms")
+          .doc(newChatRoom.chatroomid)
+          .set(newChatRoom.toMap());
+      chatRoom = newChatRoom;
+      log("New ChatRoom created!");
+    }
+    return chatRoom;
+  }
+
   bool isDisable = true;
   TextEditingController searchController = TextEditingController();
   @override
@@ -132,21 +169,30 @@ class _SearchScreenState extends State<SearchScreen> {
                     if (querySnapshot.docs.isNotEmpty) {
                       Map<String, dynamic> usersMap =
                           querySnapshot.docs[0].data() as Map<String, dynamic>;
-                      UserModel searchMap = UserModel.fromMap(usersMap);
+                      UserModel searchUser = UserModel.fromMap(usersMap);
                       // list tile...
                       return ListTile(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return ChatRoomScreen();
-                            },
-                          ));
+                        onTap: () async {
+                          ChatRoomModel? chatRoomModel =
+                              await getChatRoomModel(searchUser);
+                          if (chatRoomModel != null) {
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return ChatRoomScreen(
+                                  targetUser: searchUser,
+                                  firebaseUser: widget.firebaseUser,
+                                  userModel: widget.userModel,
+                                  chatRoomModel: chatRoomModel,
+                                );
+                              },
+                            ));
+                          }
                         },
-                        title: Text(searchMap.fullname!),
-                        subtitle: Text(searchMap.email!),
+                        title: Text(searchUser.fullname!),
+                        subtitle: Text(searchUser.email!),
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImage(searchMap.profilepic!),
+                          backgroundImage: NetworkImage(searchUser.profilepic!),
                         ),
                         trailing:
                             const Icon(Icons.keyboard_arrow_right_rounded),
