@@ -123,6 +123,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         .set(widget.userModel.toMap())
         .then((value) {
       log("Data is Uploaded");
+      Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return HomeScreen(

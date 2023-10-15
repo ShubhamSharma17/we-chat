@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       log("user details ${userModel.email}");
       log("user details ${userModel.uid}");
 
-      Navigator.push(context, MaterialPageRoute(
+      Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return HomeScreen(
               userModel: userModel, firebaseUser: credential!.user!);
