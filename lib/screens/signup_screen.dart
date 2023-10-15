@@ -8,6 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:we_chat/models/user_model.dart';
 import 'package:we_chat/screens/complete_profile.dart';
+import 'package:we_chat/utility/ui_helper.dart';
 
 import '../utility/colors.dart';
 import '../utility/utility.dart';
@@ -40,10 +41,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 // sign up method..
   void signUp(String email, String password) async {
     UserCredential? credential;
+    UIHelper.showLoadingDialog(context, "Creating new account..");
     try {
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseException catch (error) {
+      // close leading dialog..
+      Navigator.pop(context);
+      // show alert dialog
+      UIHelper.showAlertDialog(
+          context, "An error occurred!", error.code.toString());
       log(error.code.toString());
     }
 
@@ -242,6 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: confirmPasswordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.words,
                           obscureText: show1 ? false : true,
                           validator: FormBuilderValidators.compose(
                             [
@@ -268,7 +276,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hintText: "Enter Confirm Password",
                             prefixIcon: IconButton(
                                 onPressed: () {
-                                  if (show) {
+                                  if (show1) {
                                     setState(() {
                                       show1 = false;
                                     });

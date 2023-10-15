@@ -12,6 +12,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:we_chat/screens/home_screen.dart';
 import 'package:we_chat/utility/colors.dart';
+import 'package:we_chat/utility/ui_helper.dart';
 import 'package:we_chat/utility/utility.dart';
 
 import '../models/user_model.dart';
@@ -102,6 +103,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   void uploadData() async {
+    UIHelper.showLoadingDialog(context, "Uploading data..");
     UploadTask uploadTask = FirebaseStorage.instance
         .ref("profilePicture")
         .child(widget.userModel.uid.toString())

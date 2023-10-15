@@ -12,6 +12,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:we_chat/models/user_model.dart';
 import 'package:we_chat/screens/home_screen.dart';
 import 'package:we_chat/screens/signup_screen.dart';
+import 'package:we_chat/utility/ui_helper.dart';
 import 'package:we_chat/utility/utility.dart';
 
 import '../utility/colors.dart';
@@ -30,13 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isDisable = true;
   bool show = false;
-
+// method for logIn..
   void logIn(String email, String password) async {
     UserCredential? credential;
+    UIHelper.showLoadingDialog(context, "Logging In..");
     try {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (error) {
+      // close loading dialog..
+      Navigator.pop(context);
+      //show alert dialog..
+      UIHelper.showAlertDialog(
+          context, "An error Occurred", error.code.toString());
       log(error.code.toString());
     }
 
@@ -49,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // go to home screen
       log("user details ${userModel.email}");
       log("user details ${userModel.uid}");
-
+      Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return HomeScreen(

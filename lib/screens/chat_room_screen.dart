@@ -75,7 +75,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         ),
       ),
       body: SafeArea(
-          child: Container(
+          child: SizedBox(
         child: Column(
           children: [
             // this is where the chats will go
