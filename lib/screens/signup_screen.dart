@@ -63,7 +63,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .set(userModel.toMap())
           .then((value) {
         log("New User Created");
-        Navigator.push(context, MaterialPageRoute(
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
             return CompleteProfileScreen(
                 userModel: userModel, firebaseUser: credential!.user!);
