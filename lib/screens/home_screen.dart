@@ -55,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("chatrooms")
-              .where("participant.${widget.userModel.uid}", isEqualTo: true)
+              .where("users", arrayContains: widget.userModel.uid)
+              .orderBy("updatedOn", descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
