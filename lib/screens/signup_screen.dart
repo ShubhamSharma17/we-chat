@@ -32,12 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool show = false;
   bool show1 = false;
 
-  // void checkValue() {
-  //   String email = emailController.text.trim();
-  //   String password = passwordController.text.trim();
-  //   signUp(email, password);
-  // }
-
 // sign up method..
   void signUp(String email, String password) async {
     UserCredential? credential;
@@ -46,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseException catch (error) {
-      // close leading dialog..
+      // close loading dialog..
       Navigator.pop(context);
       // show alert dialog
       UIHelper.showAlertDialog(

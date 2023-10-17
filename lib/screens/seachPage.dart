@@ -51,6 +51,12 @@ class _SearchScreenState extends State<SearchScreen> {
           widget.userModel.uid.toString(): true,
           targetUser.uid!: true,
         },
+        users: [
+          widget.userModel.uid.toString(),
+          targetUser.uid.toString(),
+        ],
+        createdOn: DateTime.now(),
+        updatedOn: DateTime.now(),
       );
       await FirebaseFirestore.instance
           .collection("chatrooms")
