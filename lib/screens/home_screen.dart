@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:we_chat/models/chat_room_model.dart';
 import 'package:we_chat/models/firebase_helper.dart';
 import 'package:we_chat/models/user_model.dart';
@@ -53,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SafeArea(
-          child: Container(
+          child: SizedBox(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("chatrooms")
