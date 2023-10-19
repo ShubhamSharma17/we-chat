@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:we_chat/models/chat_room_model.dart';
 import 'package:we_chat/models/firebase_helper.dart';
 import 'package:we_chat/models/user_model.dart';
 import 'package:we_chat/screens/chat_room_screen.dart';
+import 'package:we_chat/screens/edit_profile.dart';
 import 'package:we_chat/screens/login_screen.dart';
 import 'package:we_chat/screens/seachPage.dart';
 import 'package:we_chat/utility/colors.dart';
+import 'package:we_chat/utility/utility.dart';
 
 class HomeScreen extends StatefulWidget {
   final UserModel userModel;
@@ -30,6 +33,53 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // drawer
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                children: [
+                  // profile picture
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: NetworkImage(
+                      widget.userModel.profilepic!,
+                    ),
+                  ),
+                  verticalSpaceSmall,
+                  // name
+                  Text(
+                    widget.userModel.fullname!,
+                    style: const TextStyle(fontSize: 18, color: white),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, CupertinoPageRoute(
+                  builder: (context) {
+                    return EditProfileScreen(
+                      firebaseUser: widget.firebaseUser,
+                      userModel: widget.userModel,
+                    );
+                  },
+                ));
+              },
+              title: const Text(
+                "Profile",
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          ],
+        ),
+      ),
       // appbar
       appBar: AppBar(
         title: const Text("We Chat"),
