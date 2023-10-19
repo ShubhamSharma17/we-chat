@@ -7,6 +7,7 @@ import 'package:we_chat/main.dart';
 import 'package:we_chat/models/chat_room_model.dart';
 import 'package:we_chat/models/message_model.dart';
 import 'package:we_chat/models/user_model.dart';
+import 'package:we_chat/screens/detail_screen.dart';
 import 'package:we_chat/utility/colors.dart';
 import 'package:we_chat/utility/utility.dart';
 
@@ -64,15 +65,27 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage:
-                  NetworkImage(widget.targetUser.profilepic.toString()),
-            ),
-            horizontalSpaceSmall,
-            Text(widget.targetUser.fullname.toString())
-          ],
+        title: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return DetailsScreen(
+                  firebaseUser: widget.firebaseUser,
+                  userModel: widget.targetUser,
+                );
+              },
+            ));
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage:
+                    NetworkImage(widget.targetUser.profilepic.toString()),
+              ),
+              horizontalSpaceSmall,
+              Text(widget.targetUser.fullname.toString())
+            ],
+          ),
         ),
       ),
       body: SafeArea(
@@ -117,7 +130,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                     color: (currentMessage.sender ==
                                             widget.userModel.uid)
                                         ? grayD9D9D9
-                                        : blue5AD5F966,
+                                        : Colors.blue,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: Text(
@@ -125,7 +138,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                     style: TextStyle(
                                         color: (currentMessage.sender ==
                                                 widget.userModel.uid)
-                                            ? black000000
+                                            ? black
                                             : white),
                                   )),
                             ],
@@ -171,7 +184,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       },
                       icon: const Icon(
                         Icons.send,
-                        color: blue5AD5F9,
+                        color: blue,
                       ))
                 ],
               ),

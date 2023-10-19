@@ -7,7 +7,7 @@ const Color whiteFFFFFF = Color(0xffFFFFFF);
 
 const Color black2B2B2B = Color(0xff2B2B2B);
 const Color black0B2732 = Color(0xff0B2732);
-const Color black000000 = Color(0xff000000);
+const Color black = Color(0xff000000);
 const Color black2C2C2C = Color(0xff2C2C2C);
 const Color black121920 = Color(0xff121920);
 
@@ -20,6 +20,7 @@ const Color blue04C2F1 = Color(0xff04C2F1);
 const Color blue384D61 = Color(0xff384D61);
 const Color blue43C6ED = Color(0xff43C6ED);
 const Color blue265E72 = Color(0xff265E72);
+const Color blue = Colors.blue;
 
 const Color gray939393 = Color(0xff939393);
 const Color grayF1F1F1 = Color(0xffF1F1F1);
