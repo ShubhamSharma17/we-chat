@@ -144,7 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               leading: CircleAvatar(
                                   backgroundImage:
-                                      NetworkImage(targetUser.profilepic!)),
+                                      //  targetUser.profilepic != null
+                                      //     ?
+                                      NetworkImage(targetUser.profilepic!,
+                                          scale: 1.0)
+                                  // : Image.asset("asset/image/error.png")
+                                  //     .image
+                                  ),
                               title: Text(targetUser.fullname.toString()),
                               subtitle: chatRoomModel.lastMessage == ""
                                   ? Text(
